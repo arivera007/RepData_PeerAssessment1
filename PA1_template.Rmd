@@ -60,7 +60,8 @@ rowsNA <- is.na(myFilledActivity$steps)
 myFilledActivity$steps[rowsNA] <- myFilledActivity$x[rowsNA]  # New set is correctly filled. I only have the extra column x, which will be unused
 ```
 
-#### 4. Make a histogram of the total number of steps taken each day and Calculate and report the **mean** and **median** total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
+#### 4. Histogram of the total number of steps taken each day
+####Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps? <------- CHECK THIS
 
 ```{r}
 qplot(date, data=myFilledActivity, weight= steps, geom="histogram")
