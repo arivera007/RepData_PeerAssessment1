@@ -1,20 +1,48 @@
 # Reproducible Research: Peer Assessment 1
+### by Adriana Rivera
+
+
+
+
 
 
 ## Loading and preprocessing the data
+```{r}
+myActivity <- read.csv("activity.csv")
 
+```
 
 
 ## What is mean total number of steps taken per day?
+#### First we want to see the total number of steps taken each day during 2 months
+```{r}
+require(ggplot2) #need to quiet to output for this one.
+```
 
+```{r}
+
+qplot(date, data=myActivity, weight= steps, geom="histogram")
+```
+
+#### Now we calculate the mean and median of steps taken per day
+```{r}
+
+mySums <- by(myActivity[,1], myActivity$date, sum) #this are the total number of steps per day.
+mean(mySums, na.rm = TRUE)
+median(mySums, na.rm = TRUE)
+```
 
 
 ## What is the average daily activity pattern?
-
-
+```{r}
+#fIntervals <- factor(myActivity[,3])
+myIntervalMean <- aggregate(myActivity$steps, list(Interval = myActivity$interval), mean, na.rm=TRUE) #this are the total number of steps per day.
+qplot(myIntervalMean$Interval, myIntervalMean$x, geom = "line")
+```
 
 ## Imputing missing values
 
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+  
