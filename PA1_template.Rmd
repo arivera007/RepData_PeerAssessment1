@@ -20,13 +20,11 @@ require(ggplot2) #need to quiet to output for this one.
 ```
 
 ```{r}
-
 qplot(date, data=myActivity, weight= steps, geom="histogram")
 ```
 
 #### Now we calculate the mean and median of steps taken per day
 ```{r}
-
 mySums <- by(myActivity[,1], myActivity$date, sum) #this are the total number of steps per day.
 mean(mySums, na.rm = TRUE)
 median(mySums, na.rm = TRUE)
@@ -35,12 +33,44 @@ median(mySums, na.rm = TRUE)
 
 ## What is the average daily activity pattern?
 ```{r}
-#fIntervals <- factor(myActivity[,3])
-myIntervalMean <- aggregate(myActivity$steps, list(Interval = myActivity$interval), mean, na.rm=TRUE) #this are the total number of steps per day.
-qplot(myIntervalMean$Interval, myIntervalMean$x, geom = "line")
+myIntervalMean <- aggregate(myActivity$steps, list(interval = myActivity$interval), mean, na.rm=TRUE) #this are the total number of steps per day.
+qplot(myIntervalMean$interval, myIntervalMean$x, geom = "line")
+```
+
+###The maximun 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps
+```{r}
+myIntervalMean[which.max(myIntervalMean$x),1]
+
 ```
 
 ## Imputing missing values
+### 1. Total number of missing values in the dataset (i.e. the total number of rows with NAs)
+```{r}
+summData <- summary(myActivity)
+print(summData)
+myNA <-summData[7, 1]
+```
+### NAs were found only in the steps field, and the total number of rows with `myNA  <------- CHECK THIS
+
+### 2. I chose the strategy for filling in all of the missing values in the dataset with the mean for each 5-minute interval, which will be added to a copy of the original data set.
+
+```{r}
+myFilledActivity <- merge(myActivity, myIntervalMean, by.x= "interval", by.y= "interval", sort=FALSE) #Added extra col with means of respective time interval.
+rowsNA <- is.na(myFilledActivity$steps)
+myFilledActivity$steps[rowsNA] <- myFilledActivity$x[rowsNA]  # New set is correctly filled. I only have the extra column x, which will be unused
+```
+
+#### 4. Make a histogram of the total number of steps taken each day and Calculate and report the **mean** and **median** total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
+
+```{r}
+qplot(date, data=myFilledActivity, weight= steps, geom="histogram")
+```
+#### Now we calculate the mean and median of steps taken per day
+```{r}
+myFilledSums <- by(myFilledActivity[,2], myFilledActivity$date, sum) #this are the total number of steps per day.
+mean(myFilledSums, na.rm = TRUE)
+median(myFilledSums, na.rm = TRUE)
+```
 
 
 
