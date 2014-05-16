@@ -1,4 +1,4 @@
-# Reproducible Research: Peer Assessment 1
+f# Reproducible Research: Peer Assessment 1
 ### by Adriana Rivera
 
 
@@ -20,7 +20,7 @@ require(ggplot2) #need to quiet to output for this one.
 ```
 
 ```{r}
-qplot(date, data=myActivity, weight= steps, geom="histogram")
+qplot(date, data=myActivity, weight = steps, geom="histogram")
 ```
 
 #### Now we calculate the mean and median of steps taken per day
@@ -86,7 +86,7 @@ myFilledActivity$x <- as.factor(myFilledActivity$x)
 #myFilledIntervalMean <- aggregate(myActivity$steps, list(interval = myActivity$interval), mean, na.rm=TRUE)
 #qplot(myFilledActivity$interval, myFilledActivity$x, geom = "line")
 
-myPanels <- ggplot(myFilledActivity, aes(interval, steps)) + geom_line()
-myPanels + facet_grid(x ~ .)
+myPanels <- ggplot(myFilledActivity, aes(interval, steps)) + facet_grid(x ~ .) +stat_summary(fun.y = mean, geom = "line")    #+ geom_line()
+#myPanels + facet_grid(x ~ .)
 
 ```
