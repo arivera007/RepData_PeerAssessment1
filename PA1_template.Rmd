@@ -77,16 +77,10 @@ median(myFilledSums, na.rm = TRUE)
 
 ## Are there differences in activity patterns between weekdays and weekends?
 ```{r}
-#myFilledActivity$date[1]
 myWeekends = weekdays(as.Date(myFilledActivity$date)) == "Sunday" | weekdays(as.Date(myFilledActivity$date)) == "Saturday"
 myFilledActivity$x[myWeekends] <- "weekend"
 myFilledActivity$x[!myWeekends] <- "weekday"
 myFilledActivity$x <- as.factor(myFilledActivity$x)
 
-#myFilledIntervalMean <- aggregate(myActivity$steps, list(interval = myActivity$interval), mean, na.rm=TRUE)
-#qplot(myFilledActivity$interval, myFilledActivity$x, geom = "line")
-
-myPanels <- ggplot(myFilledActivity, aes(interval, steps)) + facet_grid(x ~ .) +stat_summary(fun.y = mean, geom = "line")    #+ geom_line()
-#myPanels + facet_grid(x ~ .)
-
+ggplot(myFilledActivity, aes(interval, steps)) + facet_grid(x ~ .) +stat_summary(fun.y = mean, geom = "line")
 ```
